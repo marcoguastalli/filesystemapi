@@ -1,0 +1,9 @@
+server.port: 8090
+logging:
+  pattern:
+    console: "%msg%n"
+  level:
+    org.springframework.web: INFO
+    net.marco27.api.filesystemapi: DEBUG
+app:
+  numberoOfThreads: 10
