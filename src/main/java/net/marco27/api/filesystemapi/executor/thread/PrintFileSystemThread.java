@@ -4,11 +4,13 @@ import static org.apache.commons.io.comparator.PathFileComparator.PATH_SYSTEM_CO
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -31,38 +33,32 @@ public class PrintFileSystemThread implements Callable {
 
     @Override
     public FileStructure call() throws Exception {
-        FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
         try {
             LOGGER.info(String.format("Printing %s into file %s...", this.pathToPrint, this.fileToPrint));
+            Charset charset = Charset.forName("UTF-8");
+            Path pathToWrite = Paths.get(fileToPrint);
 
-            fileWriter = new FileWriter(new File(this.fileToPrint));
-            bufferedWriter = new BufferedWriter(fileWriter);
-            printDirStructure(bufferedWriter, this.pathToPrint, this.fileToPrint);
+            bufferedWriter = Files.newBufferedWriter(pathToWrite, charset);
+            printDirStructure(bufferedWriter, this.pathToPrint);
 
             LOGGER.info(String.format("Printed %s into file %s...", this.pathToPrint, this.fileToPrint));
+            return new FileStructure.Builder(pathToPrint).build();
         } catch (Exception e) {
             LOGGER.error("Error! " + e.getMessage());
             throw e;
         } finally {
-            try {
-                bufferedWriter.close();
-                fileWriter.close();
-            } catch (Exception e) {
-                LOGGER.error("Error! " + e.getMessage());
-                throw e;
-            }
+            bufferedWriter.close();
         }
-        return new FileStructure.Builder(pathToPrint).build();
     }
 
-    private void printDirStructure(BufferedWriter bufferedWriter, String pathToPrint, String fileToPrint)
+    private void printDirStructure(BufferedWriter bufferedWriter, String pathToPrint)
             throws IOException {
-        final List<File> filesInDirectorySorted = listAndSortDirectoryFiles(new File(pathToPrint));
+        final List<File> filesInDirectorySorted = listAndSortDirectoryFiles(Paths.get(pathToPrint).toFile());
         for (File oFile : filesInDirectorySorted) {
             if (oFile.isDirectory()) {
                 bufferedWriter.write("[" + oFile.getAbsolutePath() + "]\n");
-                printDirStructure(bufferedWriter, oFile.getAbsolutePath(), fileToPrint);
+                printDirStructure(bufferedWriter, oFile.getAbsolutePath());
             } else {
                 bufferedWriter.write(oFile.getAbsolutePath() + "\n");
             }
@@ -73,7 +69,7 @@ public class PrintFileSystemThread implements Callable {
         List<File> result = new ArrayList<File>();
         if (path != null && path.isDirectory()) {
             result = Arrays.asList(path.listFiles());
-            Collections.sort(result, PATH_SYSTEM_COMPARATOR);
+            result.sort(PATH_SYSTEM_COMPARATOR);
         }
         return result;
     }
