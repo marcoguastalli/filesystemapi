@@ -7,6 +7,6 @@ public interface FileSystemApiService {
 
     PathFileToPrint printPathToFile(String pathToPrint, String fileToPrint);
 
-    FileStructure createFileModel(String path);
+    FileStructure createFileStructure(String path);
 
 }

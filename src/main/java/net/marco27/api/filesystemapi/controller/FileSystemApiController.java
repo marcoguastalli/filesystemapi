@@ -52,7 +52,7 @@ public class FileSystemApiController {
 
     @GetMapping("/getPathStructure/{path}")
     public ResponseEntity<FileStructure> getPathStructure(@PathVariable final String path) {
-        final FileStructure result = fileSystemApiService.createFileModel(path);
+        final FileStructure result = fileSystemApiService.createFileStructure(path);
         return ResponseEntity.ok(result);
     }
 
