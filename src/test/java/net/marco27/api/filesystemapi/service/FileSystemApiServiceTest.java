@@ -53,10 +53,10 @@ public class FileSystemApiServiceTest {
     }
 
     @Test
-    public void testCreateFileModel() throws ExecutionException, InterruptedException {
+    public void testCreateFileStructure() throws ExecutionException, InterruptedException {
         when(printFileSystemExecutor.execute(any(CreateFileStructureThread.class)))
                 .thenReturn(new FileStructure.Builder(PATH_ROOT_HOME).build());
-        final FileStructure result = fileSystemApiService.createFileModel(PATH_ROOT_HOME);
+        final FileStructure result = fileSystemApiService.createFileStructure(PATH_ROOT_HOME);
         assertEquals(PATH_ROOT_HOME, result.getPath());
     }
 }

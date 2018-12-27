@@ -36,12 +36,12 @@ public class FileSystemApiServiceImpl implements FileSystemApiService {
     }
 
     @Override
-    public FileStructure createFileModel(final String path) {
+    public FileStructure createFileStructure(final String path) {
         final CreateFileStructureThread createFileStructureThread = new CreateFileStructureThread(path);
         try {
             return printFileSystemExecutor.execute(createFileStructureThread);
         } catch (ExecutionException | InterruptedException e) {
-            LOGGER.error(String.format("Error createFileModel with path: %s", path), e);
+            LOGGER.error(String.format("Error createFileStructure with path: %s", path), e);
         }
         return null;
     }
