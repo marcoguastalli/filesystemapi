@@ -1,6 +1,9 @@
 package net.marco27.api.filesystemapi.controller;
 
-import net.marco27.api.filesystemapi.domain.FileModel;
+import static net.marco27.api.util.TestUtil.stringifyJson;
+import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static net.marco27.api.util.TestUtil.stringifyJson;
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import net.marco27.api.filesystemapi.domain.FileStructure;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -38,10 +39,11 @@ public class FileSystemApiControllerTest {
         assertEquals(HttpStatus.OK.value(), response.getStatus());
     }
 
-    private FileModel createFileModel() {
-        final String path = "/opt/opt.txt";
-        final String name = "opt.txt";
-        final String ext = "txt";
-        return new FileModel.FileModelBuilder(path, name, ext).build();
+    private FileStructure createFileModel() {
+        String path = "path";
+        String name = "name";
+        String ext = "ext";
+        String timestamp = "timestamp";
+        return new FileStructure.Builder(path, name, ext).withTimestamp(timestamp).build();
     }
 }
