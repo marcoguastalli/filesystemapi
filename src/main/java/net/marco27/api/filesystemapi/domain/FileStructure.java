@@ -2,8 +2,11 @@ package net.marco27.api.filesystemapi.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public final class FileStructure implements Serializable {
 
@@ -102,4 +105,37 @@ public final class FileStructure implements Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("path", path)
+                .append("name", name)
+                .append("ext", ext)
+                .append("timestamp", timestamp)
+                .append("isDirectory", isDirectory)
+                .append("children", children)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FileStructure that = (FileStructure) o;
+        return isDirectory == that.isDirectory &&
+                Objects.equals(path, that.path) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(ext, that.ext) &&
+                Objects.equals(timestamp, that.timestamp) &&
+                Objects.equals(children, that.children);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(path, name, ext, timestamp, isDirectory, children);
+    }
 }

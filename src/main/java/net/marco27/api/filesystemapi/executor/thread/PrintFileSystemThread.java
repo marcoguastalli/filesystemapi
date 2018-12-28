@@ -1,15 +1,14 @@
 package net.marco27.api.filesystemapi.executor.thread;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.io.comparator.PathFileComparator.PATH_SYSTEM_COMPARATOR;
+import static net.marco27.api.base.ApiConstants.*;
+import static net.marco27.api.filesystemapi.util.FileSystemApiUtil.listAndSortDirectoryFiles;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -47,7 +46,7 @@ public class PrintFileSystemThread implements Callable {
             LOGGER.info(String.format("Printed %s into file %s...", this.pathToPrint, this.fileToPrint));
             return new FileStructure.Builder(pathToPrint).build();
         } catch (Exception e) {
-            LOGGER.error("Error! " + e.getMessage());
+            LOGGER.error(ERROR + e.getMessage());
             throw e;
         } finally {
             bufferedWriter.close();
@@ -62,26 +61,14 @@ public class PrintFileSystemThread implements Callable {
     private void printDirStructure(BufferedWriter bufferedWriter, final String pathToPrint)
             throws IOException {
         final List<File> filesInDirectorySorted = listAndSortDirectoryFiles(Paths.get(pathToPrint).toFile());
-        for (File oFile : filesInDirectorySorted) {
-            if (oFile.isDirectory()) {
-                bufferedWriter.write("[" + oFile.getAbsolutePath() + "]\n");
-                printDirStructure(bufferedWriter, oFile.getAbsolutePath());
+        for (File file : filesInDirectorySorted) {
+            if (file.isDirectory()) {
+                bufferedWriter.write(SQUARE_BRACKET_OPEN + file.getAbsolutePath() + SQUARE_BRACKET_CLOSE + NEW_LINE);
+                printDirStructure(bufferedWriter, file.getAbsolutePath());
             } else {
-                bufferedWriter.write(oFile.getAbsolutePath() + "\n");
+                bufferedWriter.write(file.getAbsolutePath() + NEW_LINE);
             }
         }
     }
 
-    /** If the input path isDirectory the content is listed and ordered
-     * 
-     * @param path to be listed and ordered
-     * @return a List of File instance objects */
-    private List<File> listAndSortDirectoryFiles(final File path) {
-        List<File> result = new ArrayList<File>();
-        if (path != null && path.isDirectory()) {
-            result = Arrays.asList(path.listFiles());
-            result.sort(PATH_SYSTEM_COMPARATOR);
-        }
-        return result;
-    }
 }
