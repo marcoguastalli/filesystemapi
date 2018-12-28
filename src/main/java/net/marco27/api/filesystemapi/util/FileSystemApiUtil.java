@@ -2,15 +2,21 @@ package net.marco27.api.filesystemapi.util;
 
 import static net.marco27.api.base.ApiConstants.ASTERISK;
 import static net.marco27.api.base.ApiConstants.DOT;
+import static net.marco27.api.base.util.date.DateUtils.DATE_HOURS_PATTERN;
 import static org.apache.commons.io.comparator.PathFileComparator.PATH_SYSTEM_COMPARATOR;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.TimeZone;
 
 import javax.validation.constraints.NotNull;
 
@@ -63,6 +69,10 @@ public final class FileSystemApiUtil {
         final String fileName = path.getFileName().toString();
         final String filePath = path.toRealPath(LinkOption.NOFOLLOW_LINKS).toString();
         final String fileExtension = getFileExtension(fileName);
+        final FileTime lastModifiedTime = Files.getLastModifiedTime(path, LinkOption.NOFOLLOW_LINKS);
+        final LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(lastModifiedTime.toMillis()),
+                TimeZone.getDefault().toZoneId());
+        final String fileModifiedDate = DateTimeFormatter.ofPattern(DATE_HOURS_PATTERN).format(localDateTime);
 
         if (isDirectory(inputPath)) {
             List<FileStructure> children = new ArrayList<>();
@@ -70,9 +80,15 @@ public final class FileSystemApiUtil {
             for (final Path file : directoryStream) {
                 children.add(createFileStructure(file.toRealPath(LinkOption.NOFOLLOW_LINKS).toString()));
             }
-            return new FileStructure.Builder(filePath, fileName, fileExtension).isDirectory(Boolean.TRUE).addChildren(children).build();
+            return new FileStructure.Builder(filePath, fileName, fileExtension)
+                    .isDirectory(Boolean.TRUE)
+                    .withTimestamp(fileModifiedDate)
+                    .addChildren(children).build();
         } else {
-            return new FileStructure.Builder(filePath, fileName, fileExtension).isDirectory(Boolean.FALSE).build();
+            return new FileStructure.Builder(filePath, fileName, fileExtension)
+                    .isDirectory(Boolean.FALSE)
+                    .withTimestamp(fileModifiedDate)
+                    .build();
         }
     }
 }

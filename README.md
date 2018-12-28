@@ -23,6 +23,3 @@ http://localhost:8090/printPathToFile/Volumes%2FMAC200%2Fmac200/Users%2Fmarco27%
 ##### GET getPathStructure
 http://localhost:8090/getPathStructure/Users%2Fmarco27%2Ftmp
 http://localhost:8090/getPathStructure/Users%2Fmarco27%2Ftemp
-
-#bash
-curl -X GET --header "Accept: */*" "http://localhost:8090/printPathToFile/tmp/Users%2Fmarcoguastalli%2Ftemp%2Ftemp.txt"
