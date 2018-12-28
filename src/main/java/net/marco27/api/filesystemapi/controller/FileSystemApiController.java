@@ -3,10 +3,6 @@ package net.marco27.api.filesystemapi.controller;
 import static net.marco27.api.filesystemapi.domain.PathFileToPrint.SLASH;
 import static org.springframework.http.HttpStatus.CREATED;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
@@ -24,11 +20,7 @@ import net.marco27.api.filesystemapi.service.FileSystemApiService;
 import net.marco27.api.filesystemapi.validation.model.ValidationResult;
 import net.marco27.api.filesystemapi.validation.service.ValidationService;
 
-/** The main use case for the API is to query the filesystem
- * <p>
- * The API needs the following endpoints:
- * <p>
- * GET /files – returns all the files in the filesystem */
+/** The main use case for the API is to read the filesystem */
 @RestController
 @RequestMapping
 public class FileSystemApiController {
@@ -39,7 +31,8 @@ public class FileSystemApiController {
     private ValidationService validationService;
 
     @GetMapping("/printPathToFile/{pathToPrint}/{fileToPrint}")
-    public ResponseEntity<PathFileToPrint> printPathToFile(@PathVariable final String pathToPrint, @PathVariable final String fileToPrint) {
+    public ResponseEntity<PathFileToPrint> printPathToFile(@Valid @PathVariable final String pathToPrint,
+            @Valid @PathVariable final String fileToPrint) {
         final PathFileToPrint pathFileToPrint = new PathFileToPrint.Builder(pathToPrint, fileToPrint).build();
         final ValidationResult validationResult = validationService.validateInput(pathFileToPrint);
         if (validationResult.isValid()) {
@@ -53,7 +46,7 @@ public class FileSystemApiController {
     }
 
     @GetMapping("/getPathStructure/{path}")
-    public ResponseEntity<FileStructure> getPathStructure(@PathVariable String path) {
+    public ResponseEntity<FileStructure> getPathStructure(@Valid @PathVariable String path) {
         // the input parameter cannot start with SLASH
         final FileStructure result = fileSystemApiService
                 .createFileStructure(StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path));
@@ -61,22 +54,9 @@ public class FileSystemApiController {
     }
 
     @GetMapping("/files")
-    public ResponseEntity<List<FileStructure>> getAllFiles() {
-        List<FileStructure> result = Arrays.asList(removeThis());
+    public ResponseEntity<FileStructure> getAllFiles() {
+        final FileStructure result = fileSystemApiService.createFileStructure(SLASH.concat("Users"));
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/files/{fileName}")
-    public ResponseEntity<FileStructure> getFileByName(@Valid @PathVariable String fileName) {
-        FileStructure result = removeThis();
-        return ResponseEntity.ok(result);
-    }
-
-    private FileStructure removeThis() {
-        String path = "path";
-        String name = "name";
-        String ext = "ext";
-        return new FileStructure.Builder(path, name, ext).withTimestamp(null).isDirectory(false).addChildren(Collections.EMPTY_LIST)
-                .build();
-    }
 }
