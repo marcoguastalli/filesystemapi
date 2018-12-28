@@ -1,5 +1,6 @@
 package net.marco27.api.filesystemapi.controller;
 
+import static net.marco27.api.filesystemapi.domain.PathFileToPrint.SLASH;
 import static org.springframework.http.HttpStatus.CREATED;
 
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,8 +53,10 @@ public class FileSystemApiController {
     }
 
     @GetMapping("/getPathStructure/{path}")
-    public ResponseEntity<FileStructure> getPathStructure(@PathVariable final String path) {
-        final FileStructure result = fileSystemApiService.createFileStructure(path);
+    public ResponseEntity<FileStructure> getPathStructure(@PathVariable String path) {
+        // the input parameter cannot start with SLASH
+        final FileStructure result = fileSystemApiService
+                .createFileStructure(StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path));
         return ResponseEntity.ok(result);
     }
 

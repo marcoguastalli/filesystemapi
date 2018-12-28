@@ -11,14 +11,18 @@ mvn clean spring-boot:run
 # swagger
 http://localhost:8090/swagger-ui.html
 
-# play
+### play
 http://localhost:8090/files
 http://localhost:8090/files/fichero
 
-# GET
-http://localhost:8090/printPathToFile/tmp/Users%2Fmarcoguastalli%2Ftemp%2Ftemp.txt
+##### GET printPathToFile
+http://localhost:8090/printPathToFile/tmp/Users%2Fmarco27%2Ftemp%2Ftmp.txt
 http://localhost:8090/printPathToFile/Users%2Fmarco27%2Fopt/Users%2Fmarco27%2Ftemp%2Fopt.txt
 http://localhost:8090/printPathToFile/Volumes%2FMAC200%2Fmac200/Users%2Fmarco27%2Ftemp%2Fmac200.txt
+
+##### GET getPathStructure
+http://localhost:8090/getPathStructure/Users%2Fmarco27%2Ftmp
+http://localhost:8090/getPathStructure/Users%2Fmarco27%2Ftemp
 
 #bash
 curl -X GET --header "Accept: */*" "http://localhost:8090/printPathToFile/tmp/Users%2Fmarcoguastalli%2Ftemp%2Ftemp.txt"
