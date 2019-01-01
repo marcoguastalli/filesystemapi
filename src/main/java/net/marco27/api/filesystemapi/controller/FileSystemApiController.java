@@ -68,4 +68,12 @@ public class FileSystemApiController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/findPathStructure/{path}")
+    public ResponseEntity<FileStructure> findPathStructure(@Valid @PathVariable String path) {
+        // the input parameter cannot start with SLASH
+        path = StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path);
+        FileStructure result = fileSystemApiStore.findFileStructure(path);
+        return ResponseEntity.ok(result);
+    }
+
 }
