@@ -13,8 +13,18 @@ import lombok.Setter;
 public class ApplicationConfiguration {
 
     private int numberoOfThreads;
+    private String cassandraAddresses;
+    private String cassandraKeyspace;
 
     public int getNumberoOfThreads() {
         return numberoOfThreads;
+    }
+
+    public String getCassandraAddresses() {
+        return cassandraAddresses;
+    }
+
+    public String getCassandraKeyspace() {
+        return cassandraKeyspace;
     }
 }
