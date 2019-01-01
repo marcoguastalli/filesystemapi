@@ -4,12 +4,16 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+@Entity
+@Table(name = "FILE_STRUCTURE")
 public final class FileStructure implements Serializable {
 
+    @Id
     @NotNull(message = "File path can not be null!")
     private String path;
     @NotNull(message = "File name can not be null!")
@@ -18,6 +22,7 @@ public final class FileStructure implements Serializable {
     private String ext;
     private String timestamp;
     private boolean isDirectory;
+    @OneToMany(targetEntity = FileStructure.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<FileStructure> children;
 
     // Default private empty constructor
