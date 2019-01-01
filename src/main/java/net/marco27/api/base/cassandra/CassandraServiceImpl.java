@@ -15,6 +15,7 @@ public class CassandraServiceImpl implements CassandraService {
     private static final Logger LOGGER = LoggerFactory.getLogger(CassandraServiceImpl.class);
 
     private static final String CQL_KEYSPACE_CREATE = "CREATE KEYSPACE IF NOT EXISTS %s WITH replication = {'class':'SimpleStrategy','replication_factor':1};";
+    private static final String CQL_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS %s;";
 
     @Override
     public Cluster getCassandraCluster(final String... addresses) {

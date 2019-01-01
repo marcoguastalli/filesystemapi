@@ -7,5 +7,5 @@ public interface FileSystemApiStore extends CassandraService {
 
     FileStructure loadFileStructure(String path);
 
-    void storeFileStructure(FileStructure result);
+    FileStructure storeFileStructure(FileStructure fileStructure);
 }
