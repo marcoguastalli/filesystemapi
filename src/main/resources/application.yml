@@ -1,4 +1,9 @@
 server.port: 8090
+spring.data.cassandra.port: 9042
+spring.data.cassandra.keyspace-name: filesystemapi
+spring.data.cassandra.contact-points: 127.0.0.1
+#spring.data.cassandra.schema-action: CREATE_IF_NOT_EXISTS
+spring.jpa.show-sql: true
 logging:
   pattern:
     console: "%msg%n"

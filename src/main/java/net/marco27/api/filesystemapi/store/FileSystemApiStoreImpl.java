@@ -1,5 +1,7 @@
 package net.marco27.api.filesystemapi.store;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,14 +11,23 @@ import com.datastax.driver.core.Session;
 import net.marco27.api.base.cassandra.CassandraServiceImpl;
 import net.marco27.api.filesystemapi.configuration.ApplicationConfiguration;
 import net.marco27.api.filesystemapi.domain.FileStructure;
+import net.marco27.api.filesystemapi.repository.FileStructureCrudRepository;
+import net.marco27.api.filesystemapi.repository.FileStructureJpaRepository;
 
 @Service
 public class FileSystemApiStoreImpl extends CassandraServiceImpl implements FileSystemApiStore {
 
     private ApplicationConfiguration applicationConfiguration;
 
-    public FileSystemApiStoreImpl(@Autowired final ApplicationConfiguration applicationConfiguration) {
+    private FileStructureJpaRepository fileStructureJpaRepository;
+    private FileStructureCrudRepository fileStructureCrudRepository;
+
+    public FileSystemApiStoreImpl(@Autowired final ApplicationConfiguration applicationConfiguration,
+            @Autowired FileStructureJpaRepository fileStructureJpaRepository,
+            @Autowired FileStructureCrudRepository fileStructureCrudRepository) {
         this.applicationConfiguration = applicationConfiguration;
+        this.fileStructureJpaRepository = fileStructureJpaRepository;
+        this.fileStructureCrudRepository = fileStructureCrudRepository;
     }
 
     @Override
@@ -25,11 +36,12 @@ public class FileSystemApiStoreImpl extends CassandraServiceImpl implements File
             Session session = getCassandraSession(cluster, applicationConfiguration.getCassandraKeyspace());
             session.close();
         }
-        return null;
+        Optional<FileStructure> result = fileStructureJpaRepository.findById(path);
+        return result.orElse(null);
     }
 
     @Override
-    public void storeFileStructure(final FileStructure result) {
-
+    public FileStructure storeFileStructure(final FileStructure fileStructure) {
+        return fileStructureJpaRepository.save(fileStructure);
     }
 }
