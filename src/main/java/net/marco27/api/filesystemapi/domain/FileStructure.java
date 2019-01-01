@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 @Entity
-@Table(name = "FILE_STRUCTURE")
 public final class FileStructure implements Serializable {
 
     @Id

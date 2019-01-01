@@ -73,6 +73,9 @@ public class FileSystemApiController {
         // the input parameter cannot start with SLASH
         path = StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path);
         FileStructure result = fileSystemApiStore.findFileStructure(path);
+        if (result == null) {
+            return ResponseEntity.noContent().build();
+        }
         return ResponseEntity.ok(result);
     }
 
