@@ -9,5 +9,5 @@ public interface CassandraService {
 
     Session getCassandraSession(Cluster cluster, String keyspaceName);
 
-    boolean createKeyspace(Session session, String keyspaceName);
+    boolean createKeyspace(Cluster cluster, String keyspaceName);
 }
