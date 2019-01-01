@@ -21,10 +21,10 @@ public class FileSystemApiStoreImpl extends CassandraServiceImpl implements File
 
     @Override
     public FileStructure loadFileStructure(final String path) {
-        Cluster cluster = getCassandraCluster(applicationConfiguration.getCassandraAddresses());
-        Session session = getCassandraSession(cluster, applicationConfiguration.getCassandraKeyspace());
-        session.close();
-        cluster.close();
+        try (Cluster cluster = getCassandraCluster(applicationConfiguration.getCassandraAddresses())) {
+            Session session = getCassandraSession(cluster, applicationConfiguration.getCassandraKeyspace());
+            session.close();
+        }
         return null;
     }
 
