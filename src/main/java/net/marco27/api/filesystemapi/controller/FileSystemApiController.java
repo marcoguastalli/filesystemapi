@@ -17,6 +17,7 @@ import net.marco27.api.base.domain.JsonError;
 import net.marco27.api.filesystemapi.domain.FileStructure;
 import net.marco27.api.filesystemapi.domain.PathFileToPrint;
 import net.marco27.api.filesystemapi.service.FileSystemApiService;
+import net.marco27.api.filesystemapi.store.FileSystemApiStore;
 import net.marco27.api.filesystemapi.validation.model.ValidationResult;
 import net.marco27.api.filesystemapi.validation.service.ValidationService;
 
@@ -29,6 +30,8 @@ public class FileSystemApiController {
     private FileSystemApiService fileSystemApiService;
     @Autowired
     private ValidationService validationService;
+    @Autowired
+    private FileSystemApiStore fileSystemApiStore;
 
     @GetMapping("/printPathToFile/{pathToPrint}/{fileToPrint}")
     public ResponseEntity<PathFileToPrint> printPathToFile(@Valid @PathVariable final String pathToPrint,
@@ -46,16 +49,20 @@ public class FileSystemApiController {
     }
 
     @GetMapping("/getPathStructure/{path}")
-    public ResponseEntity<FileStructure> getPathStructure(@Valid @PathVariable String path) {
+    public ResponseEntity<FileStructure> getPathStructure(@Valid @PathVariable final String path) {
         // the input parameter cannot start with SLASH
         final FileStructure result = fileSystemApiService
                 .createFileStructure(StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path));
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/files")
-    public ResponseEntity<FileStructure> getAllFiles() {
-        final FileStructure result = fileSystemApiService.createFileStructure(SLASH.concat("Users"));
+    @GetMapping("/storePathStructure/{path}")
+    public ResponseEntity<FileStructure> storePathStructure(@Valid @PathVariable final String path) {
+        FileStructure result = fileSystemApiStore.loadFileStructure(path);
+        if (result == null) {
+            result = fileSystemApiService.createFileStructure(StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path));
+            fileSystemApiStore.storeFileStructure(result);
+        }
         return ResponseEntity.ok(result);
     }
 

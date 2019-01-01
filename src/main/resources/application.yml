@@ -7,3 +7,5 @@ logging:
     net.marco27.api.filesystemapi: DEBUG
 app:
   numberoOfThreads: 10
+  cassandraAddresses: localhost
+  cassandraKeyspace: filesystemapi
