@@ -19,7 +19,7 @@ import net.marco27.api.filesystemapi.repository.FileStructureJpaRepository;
 @Service
 public class FileSystemApiStoreImpl extends CassandraServiceImpl implements FileSystemApiStore {
 
-    private static final String CQL_SELECT_BY_PATH = "SELECT * FROM FILE_STRUCTURE WHERE path = '%s'";
+    private static final String CQL_SELECT_BY_PATH = "SELECT * FROM file_structure WHERE path = '%s'";
 
     private ApplicationConfiguration applicationConfiguration;
     private FileStructureJpaRepository fileStructureJpaRepository;
