@@ -23,6 +23,7 @@ http://localhost:8090/printPathToFile/Volumes%2FMAC200%2Fmac200/Users%2Fmarco27%
 ##### GET getPathStructure
 http://localhost:8090/getPathStructure/Users%2Fmarco27%2Ftmp
 http://localhost:8090/getPathStructure/Users%2Fmarco27%2Ftemp
+http://localhost:8090/getPathStructure/Users%2Fmarcoguastalli%2Ftemp
 
 ##### GET storePathStructure
 http://localhost:8090/storePathStructure/Users%2Fmarco27%2Ftemp
