@@ -1,23 +1,17 @@
 package net.marco27.api.filesystemapi.store;
 
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.ResultSet;
-import com.datastax.driver.core.Row;
-import com.datastax.driver.core.Session;
-
-import net.marco27.api.base.cassandra.CassandraServiceImpl;
+import net.marco27.api.base.oracle.OracleServiceImpl;
 import net.marco27.api.filesystemapi.configuration.ApplicationConfiguration;
 import net.marco27.api.filesystemapi.domain.FileStructure;
 import net.marco27.api.filesystemapi.repository.FileStructureCrudRepository;
 import net.marco27.api.filesystemapi.repository.FileStructureJpaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
-public class FileSystemApiStoreImpl extends CassandraServiceImpl implements FileSystemApiStore {
+public class FileSystemApiStoreImpl extends OracleServiceImpl implements FileSystemApiStore {
 
     private static final String CQL_SELECT_BY_PATH = "SELECT * FROM file_structure WHERE path = '%s'";
 
@@ -26,8 +20,8 @@ public class FileSystemApiStoreImpl extends CassandraServiceImpl implements File
     private FileStructureCrudRepository fileStructureCrudRepository;
 
     public FileSystemApiStoreImpl(@Autowired final ApplicationConfiguration applicationConfiguration,
-            @Autowired FileStructureJpaRepository fileStructureJpaRepository,
-            @Autowired FileStructureCrudRepository fileStructureCrudRepository) {
+                                  @Autowired FileStructureJpaRepository fileStructureJpaRepository,
+                                  @Autowired FileStructureCrudRepository fileStructureCrudRepository) {
         this.applicationConfiguration = applicationConfiguration;
         this.fileStructureJpaRepository = fileStructureJpaRepository;
         this.fileStructureCrudRepository = fileStructureCrudRepository;
@@ -35,6 +29,7 @@ public class FileSystemApiStoreImpl extends CassandraServiceImpl implements File
 
     @Override
     public FileStructure loadFileStructure(final String path) {
+        /*
         try (Cluster cluster = getCassandraCluster(applicationConfiguration.getCassandraAddresses())) {
             try (Session session = getCassandraSession(cluster, applicationConfiguration.getCassandraKeyspace())) {
                 String query = String.format(CQL_SELECT_BY_PATH, path);
@@ -45,17 +40,19 @@ public class FileSystemApiStoreImpl extends CassandraServiceImpl implements File
                 }
             }
         }
-        return null;
+        */
+
+        return fileStructureCrudRepository.findByPath(path);
     }
 
     @Override
     public FileStructure findFileStructure(final String path) {
-        final Optional<FileStructure> result = fileStructureJpaRepository.findById(path);
+        final Optional<FileStructure> result = fileStructureCrudRepository.findById(path);
         return result.orElse(null);
     }
 
     @Override
     public FileStructure storeFileStructure(final FileStructure fileStructure) {
-        return fileStructureJpaRepository.save(fileStructure);
+        return fileStructureCrudRepository.save(fileStructure);
     }
 }
