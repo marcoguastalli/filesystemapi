@@ -1,13 +1,12 @@
 package net.marco27.api.filesystemapi.domain;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public final class FileStructure implements Serializable {
@@ -17,7 +16,6 @@ public final class FileStructure implements Serializable {
     private String path;
     @NotNull(message = "File name can not be null!")
     private String name;
-    @NotNull(message = "File extension can not be null!")
     private String ext;
     private String timestamp;
     private boolean isDirectory;

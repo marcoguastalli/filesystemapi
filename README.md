@@ -27,6 +27,7 @@ http://localhost:8090/getPathStructure/Users%2Fmarcoguastalli%2Ftemp
 
 ##### GET storePathStructure
 http://localhost:8090/storePathStructure/Users%2Fmarco27%2Ftemp
+http://localhost:8090/storePathStructure/Users%2Fmarcoguastalli%2Ftemp
 
 ##### GET findPathStructure
 http://localhost:8090/findPathStructure/Users%2Fmarco27%2Ftemp
