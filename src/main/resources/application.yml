@@ -1,16 +1,35 @@
 server.port: 8090
-spring.data.cassandra.port: 9042
-spring.data.cassandra.keyspace-name: filesystemapi
-spring.data.cassandra.contact-points: 127.0.0.1
-#spring.data.cassandra.schema-action: CREATE_IF_NOT_EXISTS
+
+# JPA
 spring.jpa.show-sql: true
+# Create and drop tables and sequences, loads import.sql
+#spring.jpa.hibernate.ddl-auto: create
+# Naming strategy
+spring.jpa.hibernate.naming.implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+spring.jpa.hibernate.naming.physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+# Allows Hibernate to generate SQL optimized for a particular DBMS
+# hibernate.dialect: org.hibernate.dialect.OracleDialect
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.Oracle10gDialect
+
+# Oracle settings
+spring.datasource.url: jdbc:oracle:thin:@192.168.56.3:1521:xe
+spring.datasource.username: apex
+spring.datasource.password: apex
+spring.datasource.driver-class: oracle.jdbc.driver.OracleDriver
+
+# HikariCP settings spring.datasource.hikari.*
+spring.datasource.hikari.connection-timeout: 60000
+spring.datasource.hikari.maximum-pool-size: 5
+# LOGGER
+#logging.pattern.console:%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
 logging:
   pattern:
     console: "%msg%n"
   level:
     org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: DEBUG
     net.marco27.api.filesystemapi: DEBUG
 app:
   numberoOfThreads: 10
-  cassandraAddresses: localhost
-  cassandraKeyspace: filesystemapi
+
