@@ -1,27 +1,26 @@
 package net.marco27.api.filesystemapi.controller;
 
-import static net.marco27.api.filesystemapi.domain.PathFileToPrint.SLASH;
-import static org.springframework.http.HttpStatus.CREATED;
-
-import javax.validation.Valid;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import net.marco27.api.base.domain.JsonError;
+import net.marco27.api.base.domain.JsonSuccess;
 import net.marco27.api.filesystemapi.domain.FileStructure;
 import net.marco27.api.filesystemapi.domain.PathFileToPrint;
 import net.marco27.api.filesystemapi.service.FileSystemApiService;
 import net.marco27.api.filesystemapi.store.FileSystemApiStore;
 import net.marco27.api.filesystemapi.validation.model.ValidationResult;
 import net.marco27.api.filesystemapi.validation.service.ValidationService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-/** The main use case for the API is to read the filesystem */
+import javax.validation.Valid;
+
+import static net.marco27.api.filesystemapi.domain.PathFileToPrint.SLASH;
+import static org.springframework.http.HttpStatus.CREATED;
+
+/**
+ * The main use case for the API is to read the filesystem
+ */
 @RestController
 @RequestMapping
 public class FileSystemApiController {
@@ -35,7 +34,7 @@ public class FileSystemApiController {
 
     @GetMapping("/printPathToFile/{pathToPrint}/{fileToPrint}")
     public ResponseEntity<PathFileToPrint> printPathToFile(@Valid @PathVariable final String pathToPrint,
-            @Valid @PathVariable final String fileToPrint) {
+                                                           @Valid @PathVariable final String fileToPrint) {
         final PathFileToPrint pathFileToPrint = new PathFileToPrint.Builder(pathToPrint, fileToPrint).build();
         final ValidationResult validationResult = validationService.validateInput(pathFileToPrint);
         if (validationResult.isValid()) {
@@ -48,35 +47,53 @@ public class FileSystemApiController {
         }
     }
 
-    @GetMapping("/getPathStructure/{path}")
+    /**
+     * The input path parameter from a request cannot start with SLASH, but absolute paths are used
+     *
+     * @param path to validate
+     * @return a valid path
+     */
+    @Valid
+    private String validatePath(@PathVariable @Valid String path) {
+        return StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path);
+    }
+
+    @GetMapping("/findPathStructureById/{path}")
     public ResponseEntity<FileStructure> getPathStructure(@Valid @PathVariable String path) {
-        // the input parameter cannot start with SLASH
-        path = StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path);
-        final FileStructure result = fileSystemApiService.createFileStructure(path);
+        final FileStructure result = fileSystemApiStore.findFileStructureById(validatePath(path));
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/storePathStructure/{path}")
-    public ResponseEntity<FileStructure> storePathStructure(@Valid @PathVariable String path) {
-        // the input parameter cannot start with SLASH
-        path = StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path);
-        FileStructure result = fileSystemApiStore.loadFileStructure(path);
-        if (result == null) {
-            result = fileSystemApiService.createFileStructure(path);
-            result = fileSystemApiStore.storeFileStructure(result);
-        }
-        return ResponseEntity.ok(result);
-    }
-
-    @GetMapping("/findPathStructure/{path}")
+    @GetMapping("/findPathStructureByPath/{path}")
     public ResponseEntity<FileStructure> findPathStructure(@Valid @PathVariable String path) {
-        // the input parameter cannot start with SLASH
-        path = StringUtils.startsWith(path, SLASH) ? path : SLASH.concat(path);
-        FileStructure result = fileSystemApiStore.findFileStructure(path);
+        FileStructure result = fileSystemApiStore.findFileStructureByPath(validatePath(path));
         if (result == null) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(result);
     }
+
+    @DeleteMapping("/deletePathStructure/{path}")
+    public ResponseEntity<JsonSuccess> deletePathStructure(@Valid @PathVariable String path) {
+        FileStructure fileStructure = fileSystemApiStore.findFileStructureByPath(validatePath(path));
+        if (fileStructure != null) {
+            fileSystemApiStore.deletePathStructure(fileStructure);
+            return ResponseEntity.ok(new JsonSuccess());
+        }
+        return ResponseEntity.ok(new JsonSuccess(String.format("path not found %s", path)));
+    }
+
+
+    @GetMapping("/savePathStructure/{path}")
+    public ResponseEntity<FileStructure> storePathStructure(@Valid @PathVariable String path) {
+        final String validPath = validatePath(path);
+        FileStructure result = fileSystemApiStore.findFileStructureById(validatePath(validPath));
+        if (result == null) {
+            result = fileSystemApiService.createFileStructure(validPath);
+            result = fileSystemApiStore.savePathStructure(result);
+        }
+        return ResponseEntity.ok(result);
+    }
+
 
 }
