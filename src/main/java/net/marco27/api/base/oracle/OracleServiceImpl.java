@@ -9,5 +9,5 @@ import javax.sql.DataSource;
 public class OracleServiceImpl implements OracleService {
 
     @Autowired
-    private DataSource dataSource;
+    protected DataSource dataSource;
 }

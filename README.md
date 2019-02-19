@@ -11,23 +11,34 @@ mvn clean spring-boot:run
 # swagger
 http://localhost:8090/swagger-ui.html
 
+# oracle
+http://192.168.56.3:8080/apex/
+
 ### play
 http://localhost:8090/files
 http://localhost:8090/files/fichero
+%2F
 
 ##### GET printPathToFile
 http://localhost:8090/printPathToFile/tmp/Users%2Fmarco27%2Ftemp%2Ftmp.txt
 http://localhost:8090/printPathToFile/Users%2Fmarco27%2Fopt/Users%2Fmarco27%2Ftemp%2Fopt.txt
 http://localhost:8090/printPathToFile/Volumes%2FMAC200%2Fmac200/Users%2Fmarco27%2Ftemp%2Fmac200.txt
+http://localhost:8090/printPathToFile/Users%2Fmarcoguastalli%2Fopt%2Fdocker/Users%2Fmarcoguastalli%2Ftemp%2Fdocker.txt
+{"pathToPrint":"/Users/marcoguastalli/opt/docker","fileToPrint":"/Users/marcoguastalli/temp/docker.txt"}
 
-##### GET getPathStructure
-http://localhost:8090/getPathStructure/Users%2Fmarco27%2Ftmp
-http://localhost:8090/getPathStructure/Users%2Fmarco27%2Ftemp
-http://localhost:8090/getPathStructure/Users%2Fmarcoguastalli%2Ftemp
+##### GET findPathStructureById
+http://localhost:8090/findPathStructureById/Users%2Fmarco27%2Ftemp
+http://localhost:8090/findPathStructureById/Users%2Fmarcoguastalli%2Ftemp
 
-##### GET storePathStructure
-http://localhost:8090/storePathStructure/Users%2Fmarco27%2Ftemp
-http://localhost:8090/storePathStructure/Users%2Fmarcoguastalli%2Ftemp
+##### GET findPathStructureByPath
+http://localhost:8090/findPathStructureByPath/Users%2Fmarco27%2Ftemp
+http://localhost:8090/findPathStructureByPath/Users%2Fmarcoguastalli%2Ftemp
 
-##### GET findPathStructure
-http://localhost:8090/findPathStructure/Users%2Fmarco27%2Ftemp
+##### GET(!) savePathStructure
+http://localhost:8090/savePathStructure/Users%2Fmarco27%2Ftemp
+http://localhost:8090/savePathStructure/Users%2Fmarcoguastalli%2Ftemp
+
+##### DELETE deletePathStructure
+http://localhost:8090/deletePathStructure/Users%2Fmarco27%2Ftemp
+http://localhost:8090/deletePathStructure/Users%2Fmarcoguastalli%2Ftemp
+
