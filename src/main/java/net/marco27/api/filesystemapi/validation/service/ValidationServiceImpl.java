@@ -1,6 +1,6 @@
 package net.marco27.api.filesystemapi.validation.service;
 
-import static net.marco27.api.filesystemapi.domain.PathFileToPrint.SLASH;
+import static net.marco27.api.base.ApiConstants.SLASH;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
