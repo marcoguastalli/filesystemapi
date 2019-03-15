@@ -1,23 +1,20 @@
 package net.marco27.api.filesystemapi.domain;
 
+import static net.marco27.api.base.ApiConstants.SLASH;
+
 import java.io.Serializable;
 
 import org.apache.commons.lang3.StringUtils;
 
-import lombok.Setter;
-
-@Setter
+/** The file of the pathToPrint directory are printed in fileToPrint
+ *
+ * pathToPrint: /Users/marcoguastalli/opt/docker
+ *
+ * fileToPrint: /Users/marcoguastalli/Documents/docker.txt */
 public final class PathFileToPrint implements Serializable {
-
-    // As the GET operation doens't allows slash
-    public static final String SLASH = "/";
 
     private String pathToPrint;
     private String fileToPrint;
-
-    // Default Constructor used for deserialize
-    public PathFileToPrint() {
-    }
 
     private PathFileToPrint(final String pathToPrint, final String fileToPrint) {
         this.pathToPrint = pathToPrint;
