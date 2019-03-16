@@ -16,6 +16,10 @@ public final class PathFileToPrint implements Serializable {
     private String pathToPrint;
     private String fileToPrint;
 
+    // com.fasterxml.jackson.databind
+    private PathFileToPrint() {
+    }
+
     private PathFileToPrint(final String pathToPrint, final String fileToPrint) {
         this.pathToPrint = pathToPrint;
         this.fileToPrint = fileToPrint;
