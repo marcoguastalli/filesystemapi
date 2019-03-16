@@ -41,4 +41,5 @@ http://localhost:8090/savePathStructure/Users%2Fmarcoguastalli%2Ftemp
 ##### DELETE deletePathStructure
 http://localhost:8090/deletePathStructure/Users%2Fmarco27%2Ftemp
 http://localhost:8090/deletePathStructure/Users%2Fmarcoguastalli%2Ftemp
-
+curl -X DELETE --header "Accept: */*" "http://localhost:8090/deletePathStructure/Users%2Fmarcoguastalli%2Ftemp"
+curl -X DELETE --header "Accept: */*" "http://localhost:8090/deletePathStructure/Users%2Fmarco27%2Ftemp"
