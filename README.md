@@ -15,8 +15,7 @@ http://localhost:8090/swagger-ui.html
 http://192.168.56.3:8080/apex/
 
 ### play
-http://localhost:8090/files
-http://localhost:8090/files/fichero
+http://localhost:8090/
 %2F
 
 ##### GET printPathToFile

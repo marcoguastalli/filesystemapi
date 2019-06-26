@@ -21,6 +21,8 @@ import java.util.TimeZone;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.marco27.api.filesystemapi.domain.FileStructure;
 
@@ -75,11 +77,7 @@ public final class FileSystemApiUtil {
         final String fileModifiedDate = DateTimeFormatter.ofPattern(DATE_HOURS_PATTERN).format(localDateTime);
 
         if (isDirectory(inputPath)) {
-            List<FileStructure> children = new ArrayList<>();
-            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(inputPath), ASTERISK);
-            for (final Path file : directoryStream) {
-                children.add(createFileStructure(file.toRealPath(LinkOption.NOFOLLOW_LINKS).toString()));
-            }
+            final List<FileStructure> children = getFileStructures(inputPath);
             return new FileStructure.Builder(filePath, fileName, fileExtension)
                     .isDirectory(Boolean.TRUE)
                     .withTimestamp(fileModifiedDate)
@@ -90,5 +88,24 @@ public final class FileSystemApiUtil {
                     .withTimestamp(fileModifiedDate)
                     .build();
         }
+    }
+
+    /** Creates a FileStructure recursively navigate the file-system starting from the inputPath
+     * 
+     * @param inputPath the starting directory
+     * @return a List of FileStructure */
+    private static List<FileStructure> getFileStructures(final String inputPath) {
+        List<FileStructure> children = new ArrayList<>();
+        try {
+            DirectoryStream<Path> directoryStream = Files.newDirectoryStream(Paths.get(inputPath), ASTERISK);
+            for (final Path file : directoryStream) {
+                children.add(createFileStructure(file.toRealPath(LinkOption.NOFOLLOW_LINKS).toString()));
+            }
+            directoryStream.close();
+        } catch (Exception e) {
+            Logger logger = LoggerFactory.getLogger(FileSystemApiUtil.class);
+            logger.error("ERROR getFileStructures", e);
+        }
+        return children;
     }
 }

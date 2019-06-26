@@ -86,7 +86,9 @@ public class FileSystemApiController {
         FileStructure result = fileSystemApiStore.findFileStructureById(validatePath(validPath));
         if (result == null) {
             result = fileSystemApiService.createFileStructure(validPath);
-            result = fileSystemApiStore.savePathStructure(result);
+            if (result != null) {
+                result = fileSystemApiStore.savePathStructure(result);
+            }
         }
         return ResponseEntity.ok(result);
     }
