@@ -1,9 +1,9 @@
 package net.marco27.api.base.domain;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 @Getter
 @Setter
