@@ -19,8 +19,8 @@ http://localhost:8090/
 curl -X POST "http://localhost:8090/create/Users%2Fmarcoguastalli%2Ftemp"
 
 ##### cRud
-curl -X GET "http://localhost:8090/read/Users%2Fmarcoguastalli%2Ftemp"
-curl -X GET "http://localhost:8090/find/Users%2Fmarcoguastalli%2Ftemp"
+curl -i -X GET "http://localhost:8090/read/Users%2Fmarcoguastalli%2Ftemp"
+curl -i -X GET "http://localhost:8090/find/Users%2Fmarcoguastalli%2Ftemp"
 
 ##### crUd
 curl -X PUT "http://localhost:8090/update/Users%2Fmarcoguastalli%2Ftemp" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"name\": \"NEW NAME\", \"timestamp\": \"2020-06-14 14:15:16\"}"
