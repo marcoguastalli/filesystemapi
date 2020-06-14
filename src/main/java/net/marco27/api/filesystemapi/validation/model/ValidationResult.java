@@ -5,9 +5,9 @@ import org.springframework.http.HttpStatus;
 import lombok.Setter;
 
 /** Model object for input validation
- * <p>
+ * 
  * If valid returns a ValidationResult object with isValid==true, errorMessage=="", HttpStatus=OK
- * <p>
+ * 
  * If NO valid returns a ValidationResult object with isValid==false, errorMessage with the error, HttpStatus accordingly to the specs */
 @Setter
 public class ValidationResult {

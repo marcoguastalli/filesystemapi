@@ -15,7 +15,7 @@ public class PrintFileSystemExecutor {
     private ApplicationConfiguration applicationConfiguration;
 
     public FileStructure execute(final Callable callable) throws ExecutionException, InterruptedException {
-        ExecutorService executorService = Executors.newFixedThreadPool(applicationConfiguration.getNumberoOfThreads());
+        ExecutorService executorService = Executors.newFixedThreadPool(applicationConfiguration.getThreads());
         try {
             Future<FileStructure> result = executorService.submit(callable);
             return result.get();

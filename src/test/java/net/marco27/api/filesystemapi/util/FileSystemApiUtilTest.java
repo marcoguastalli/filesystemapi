@@ -35,7 +35,7 @@ public class FileSystemApiUtilTest {
 
     @Test
     public void testCreateFileStructure() throws IOException {
-        final FileStructure expected = new FileStructure.Builder(PATH).build();
+        final FileStructure expected = FileStructure.builder().path(PATH).build();
         final FileStructure result = createFileStructure(PATH);
         assertNotEquals(expected, result);
     }
