@@ -1,13 +1,19 @@
 package net.marco27.api.filesystemapi.util;
 
-import static net.marco27.api.filesystemapi.util.FileSystemApiUtil.*;
-import static org.junit.Assert.*;
+import static net.marco27.api.filesystemapi.util.FileSystemApiUtil.createFileStructure;
+import static net.marco27.api.filesystemapi.util.FileSystemApiUtil.getFileExtension;
+import static net.marco27.api.filesystemapi.util.FileSystemApiUtil.isDirectory;
+import static net.marco27.api.filesystemapi.util.FileSystemApiUtil.listAndSortDirectoryFiles;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import net.marco27.api.filesystemapi.domain.FileStructure;
 

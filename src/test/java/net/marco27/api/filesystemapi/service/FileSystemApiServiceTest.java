@@ -1,7 +1,7 @@
 package net.marco27.api.filesystemapi.service;
 
 import static net.marco27.api.util.TestUtil.getJsonFromFile;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -9,12 +9,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import net.marco27.api.filesystemapi.configuration.ApplicationConfiguration;
 import net.marco27.api.filesystemapi.domain.FileStructure;
@@ -22,7 +20,6 @@ import net.marco27.api.filesystemapi.domain.PathFileToPrint;
 import net.marco27.api.filesystemapi.executor.PrintFileSystemExecutor;
 import net.marco27.api.filesystemapi.executor.thread.CreateFileStructureThread;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 public class FileSystemApiServiceTest {
 
     private static final String TEST_JSON_FILE = "/pathprinted.json";
@@ -38,8 +35,8 @@ public class FileSystemApiServiceTest {
 
     private PathFileToPrint pathFileToPrint;
 
-    @Before
-    public void setUp() throws IOException {
+    @BeforeEach
+    public void init() throws IOException {
         MockitoAnnotations.initMocks(this);
         fileSystemApiService = new FileSystemApiServiceImpl(printFileSystemExecutor);
         final File file = new File(this.getClass().getResource(TEST_JSON_FILE).getFile());
