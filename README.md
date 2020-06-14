@@ -11,34 +11,23 @@ mvn clean spring-boot:run
 # swagger
 http://localhost:8090/swagger-ui.html
 
-# oracle
-http://192.168.56.3:8080/apex/
-
 ### play
 http://localhost:8090/
 %2F
 
+##### Crud
+curl -X POST "http://localhost:8090/create/Users%2Fmarcoguastalli%2Ftemp"
+
+##### cRud
+curl -X GET "http://localhost:8090/read/Users%2Fmarcoguastalli%2Ftemp"
+curl -X GET "http://localhost:8090/find/Users%2Fmarcoguastalli%2Ftemp"
+
+##### crUd
+curl -X PUT "http://localhost:8090/update/Users%2Fmarcoguastalli%2Ftemp" -H "accept: */*" -H "Content-Type: application/json" -d "{ \"name\": \"NEW NAME\", \"timestamp\": \"2020-06-14 14:15:16\"}"
+
+##### cruD
+curl -X DELETE "http://localhost:8090/delete/Users%2Fmarcoguastalli%2Ftemp"
+
 ##### GET printPathToFile
-http://localhost:8090/printPathToFile/tmp/Users%2Fmarco27%2Ftemp%2Ftmp.txt
-http://localhost:8090/printPathToFile/Users%2Fmarco27%2Fopt/Users%2Fmarco27%2Ftemp%2Fopt.txt
-http://localhost:8090/printPathToFile/Volumes%2FMAC200%2Fmac200/Users%2Fmarco27%2Ftemp%2Fmac200.txt
-http://localhost:8090/printPathToFile/Users%2Fmarcoguastalli%2Fopt%2Fdocker/Users%2Fmarcoguastalli%2Ftemp%2Fdocker.txt
-{"pathToPrint":"/Users/marcoguastalli/opt/docker","fileToPrint":"/Users/marcoguastalli/temp/docker.txt"}
-
-##### GET findFileStructureById
-http://localhost:8090/findFileStructureById/Users%2Fmarco27%2Ftemp
-http://localhost:8090/findFileStructureById/Users%2Fmarcoguastalli%2Ftemp
-
-##### GET findFileStructureByPath
-http://localhost:8090/findFileStructureByPath/Users%2Fmarco27%2Ftemp
-http://localhost:8090/findFileStructureByPath/Users%2Fmarcoguastalli%2Ftemp
-
-##### GET(!) saveFileStructure
-http://localhost:8090/saveFileStructure/Users%2Fmarco27%2Ftemp
-http://localhost:8090/saveFileStructure/Users%2Fmarcoguastalli%2Ftemp
-
-##### DELETE deleteFileStructure
-http://localhost:8090/deleteFileStructure/Users%2Fmarco27%2Ftemp
-http://localhost:8090/deleteFileStructure/Users%2Fmarcoguastalli%2Ftemp
-curl -X DELETE --header "Accept: */*" "http://localhost:8090/deleteFileStructure/Users%2Fmarcoguastalli%2Ftemp"
-curl -X DELETE --header "Accept: */*" "http://localhost:8090/deleteFileStructure/Users%2Fmarco27%2Ftemp"
+http://localhost:8090/printPathToFile/Users%2Fmarcoguastalli%2Fopt/Users%2Fmarcoguastalli%2Ftemp%2Fopt.txt
+http://localhost:8090/printPathToFile/Volumes%2FMAC100%2Fmac100%2FSoftware/Users%2Fmarcoguastalli%2Ftemp%2Fmac100.txt
