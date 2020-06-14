@@ -1,10 +1,12 @@
 package net.marco27.api.filesystemapi.store;
 
+import java.util.Optional;
+
 import net.marco27.api.filesystemapi.domain.FileStructure;
 
 public interface FileSystemApiStore {
 
-    FileStructure findFileStructureById(String path);
+    Optional<FileStructure> findById(String path);
 
     FileStructure findFileStructureByPath(String path);
 

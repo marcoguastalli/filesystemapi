@@ -12,10 +12,10 @@ import lombok.Setter;
 @ConfigurationProperties(prefix = "app")
 public class ApplicationConfiguration {
 
-    private int numberoOfThreads;
+    private int threads;
 
-    public int getNumberoOfThreads() {
-        return numberoOfThreads;
+    public int getThreads() {
+        return threads;
     }
 
 }

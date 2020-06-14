@@ -44,6 +44,6 @@ public class FileSystemApiControllerTest {
         String name = "name";
         String ext = "ext";
         String timestamp = "timestamp";
-        return new FileStructure.Builder(path, name, ext).withTimestamp(timestamp).build();
+        return FileStructure.builder().path(path).name(name).ext(ext).timestamp(timestamp).build();
     }
 }

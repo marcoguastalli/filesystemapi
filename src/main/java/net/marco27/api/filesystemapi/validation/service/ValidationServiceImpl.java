@@ -24,12 +24,12 @@ public class ValidationServiceImpl extends BaseValidationServiceImpl implements 
 
     @Override
     public boolean validatePathToPrint(final String pathToPrint) {
-        return !StringUtils.isEmpty(pathToPrint) && StringUtils.startsWith(pathToPrint, SLASH);
+        return StringUtils.startsWith(pathToPrint, SLASH);
     }
 
     @Override
     public boolean validateFileToPrint(final String fileToPrint) {
-        return !StringUtils.isEmpty(fileToPrint) && StringUtils.startsWith(fileToPrint, SLASH);
+        return StringUtils.startsWith(fileToPrint, SLASH);
     }
 
 }

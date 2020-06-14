@@ -14,5 +14,5 @@ logging:
     org.hibernate.type.descriptor.sql: DEBUG
     net.marco27.api.filesystemapi: DEBUG
 app:
-  numberoOfThreads: 10
+  threads: 10
 

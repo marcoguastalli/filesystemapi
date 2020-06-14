@@ -20,9 +20,8 @@ public class FileSystemApiStoreImpl implements FileSystemApiStore {
     }
 
     @Override
-    public FileStructure findFileStructureById(final String path) {
-        final Optional<FileStructure> result = this.fileStructureJpaRepository.findById(path);
-        return result.orElse(null);
+    public Optional<FileStructure> findById(final String path) {
+        return fileStructureJpaRepository.findById(path);
     }
 
     @Override
@@ -32,7 +31,7 @@ public class FileSystemApiStoreImpl implements FileSystemApiStore {
 
     @Override
     public FileStructure saveFileStructure(final FileStructure fileStructure) {
-        return this.fileStructureJpaRepository.save(fileStructure);
+        return fileStructureJpaRepository.save(fileStructure);
     }
 
     @Override

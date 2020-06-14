@@ -8,7 +8,11 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -78,14 +82,21 @@ public final class FileSystemApiUtil {
 
         if (isDirectory(inputPath)) {
             final List<FileStructure> children = getFileStructures(inputPath);
-            return new FileStructure.Builder(filePath, fileName, fileExtension)
+            return FileStructure.builder()
+                    .path(filePath)
+                    .name(fileName)
+                    .ext(fileExtension)
                     .isDirectory(Boolean.TRUE)
-                    .withTimestamp(fileModifiedDate)
-                    .addChildren(children).build();
+                    .timestamp(fileModifiedDate)
+                    .children(children)
+                    .build();
         } else {
-            return new FileStructure.Builder(filePath, fileName, fileExtension)
+            return FileStructure.builder()
+                    .path(filePath)
+                    .name(fileName)
+                    .ext(fileExtension)
                     .isDirectory(Boolean.FALSE)
-                    .withTimestamp(fileModifiedDate)
+                    .timestamp(fileModifiedDate)
                     .build();
         }
     }

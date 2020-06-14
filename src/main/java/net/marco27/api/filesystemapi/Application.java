@@ -35,7 +35,7 @@ public class Application implements WebMvcConfigurer {
     }
 
     private ApiInfo generateApiInfo() {
-        return new ApiInfo("File System API", "File System Spring Boot API", "Version 1.0",
+        return new ApiInfo("File System API", "File System Spring Boot API", "Version 2.0",
                 "urn:tos", "marcoguastalli", "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0");
     }
 

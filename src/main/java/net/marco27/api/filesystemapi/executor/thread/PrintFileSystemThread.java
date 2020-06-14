@@ -44,7 +44,7 @@ public class PrintFileSystemThread implements Callable {
             printDirStructure(bufferedWriter, this.pathToPrint);
 
             LOGGER.info(String.format("Printed %s into file %s...", this.pathToPrint, this.fileToPrint));
-            return new FileStructure.Builder(pathToPrint).build();
+            return FileStructure.builder().path(pathToPrint).build();
         } catch (Exception e) {
             LOGGER.error(ERROR + e.getMessage());
             throw e;
